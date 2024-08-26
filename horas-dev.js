@@ -9,7 +9,9 @@ class TimesheetPlus {
             'indicator-absence-approved',
         ]
         this.meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
-        this.minutosJornada = (7 * 60) + 45
+        //this.minutosJornada = (7 * 60) + 45
+        // Rafa
+        this.minutosJornada = (7 * 60)
         this.minutosMediaJornada = (4 * 60)
         setInterval(async () => {
             const headerRow = document.querySelector('.wx-timesheet__header-placeholder')
@@ -84,6 +86,8 @@ class TimesheetPlus {
         bar.appendChild(autoBtn)
         const mesAutoBtn = this.crearBotonMesAuto()
         bar.appendChild(mesAutoBtn)
+        // Rafa
+        this.setWednesdayAsFree()
 
         // const clockEl = this.createSVGClock()
         // bar.appendChild(clockEl)
@@ -135,6 +139,20 @@ class TimesheetPlus {
             let isExpanded = data.diaExpandido.elem.getAttribute('aria-expanded') === 'true'
             if (!isExpanded) {
                 data.diaExpandido.elem.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))
+            }
+        }
+    }
+
+    // Rafa
+    setWednesdayAsFree() {
+        const main = this.getMain()
+        const allDays = main.querySelectorAll("timesheet-day")
+        for (let i = 0; i < allDays.length; i++) {
+            const date_content = allDays[i].querySelector(".wx-timesheet-day__date-indicators")
+            if (date_content.innerText.indexOf("miércoles") != -1){
+                const dayTitle = allDays[i].querySelector('[class^="wx-timesheet-day"]')
+                dayTitle.classList.remove("wx-timesheet-day__header-weekday")
+                dayTitle.classList.add("wx-timesheet-day__header-weekend")
             }
         }
     }
